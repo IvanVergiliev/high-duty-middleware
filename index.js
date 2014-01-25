@@ -14,6 +14,8 @@ app.use('/bower_components', express.static(__dirname + "/bower_components"));
 
 var io = socketIO.listen(server);
 
+var unityServer = new UnityServer(players, null);
+
 var players = [];
 
 io.sockets.on('connection', function (socket) {
@@ -32,8 +34,13 @@ io.sockets.on('connection', function (socket) {
 
 server.listen(3000);
 
-var unityServer = new UnityServer(players, null);
-
 var tcpServer = net.createServer(function (socket) {
   unityServer.socket = socket;
+  socket.on('close', function () {
+    unityServer.socket = null;
+    console.log('disconnected game server');
+  });
+  console.log('connected game server');
 });
+
+tcpServer.listen(3001);
