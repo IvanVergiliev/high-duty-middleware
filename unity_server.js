@@ -3,4 +3,7 @@ var UnityServer = function (players, tcpSocket) {
   this.socket = tcpSocket;
 }
 
+UnityServer.prototype.stopGame = function () {
+};
+
 module.exports = UnityServer;
