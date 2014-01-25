@@ -1,0 +1,19 @@
+{
+  "name": "shepherd",
+  "main": "index.js",
+  "version": "0.1.0",
+  "authors": [
+    "ivan.vergiliev@gmail.com"
+  ],
+  "license": "MIT",
+  "ignore": [
+    "**/.*",
+    "node_modules",
+    "bower_components",
+    "test",
+    "tests"
+  ],
+  "dependencies": {
+    "jquery": "~2.1.0"
+  }
+}
