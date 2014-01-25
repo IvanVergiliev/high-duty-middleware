@@ -18,8 +18,9 @@ var activeTurn = false;
 var setActiveTurn = function () {
   activeTurn = true;
   setTimeout(function () {
+    socket.emit('message', 'straight');
     activeTurn = false;
-  }, 500);
+  }, 200);
 }
 
 var normalize = function (motionEvent) {
@@ -36,27 +37,30 @@ var normalize = function (motionEvent) {
     result.acceleration.z *= -1;
   }
   return result;
-}
+};
+
+var turnThreshold = 25;
+var stopTurnThreshold = 15;
+var dir = 0;
+
+var sign = function (a) {
+  return a < 0 ? -1 : 1;
+};
 
 window.addEventListener('deviceorientation', function (event) {
-  var alpha = event.alpha;
   var beta = event.beta;
-  var gamma = event.gamma;
-  $('#alpha').text(alpha);
   $('#beta').text(beta);
-  $('#gamma').text(gamma);
-  if (!activeTurn) {
-    if (beta > 20) {
-      $('#turn').text('Right! ' + beta);
-      socket.emit('message', 'right');
-      setActiveTurn();
-    } else if (beta < -20) {
-      $('#turn').text('Left! ' + beta);
-      socket.emit('message', 'left');
-      setActiveTurn();
-    } else {
-      $('#turn').text('No turn...');
+  if (Math.abs(beta) > turnThreshold) {
+    var curDir = sign(beta);
+    if (curDir == dir) {
+      return;
     }
+    dir = curDir;
+    var data = (dir == 1 ? 'right' : 'left');
+    socket.emit('message', data);
+  } else if (Math.abs(beta) < stopTurnThreshold && dir != 0) {
+    dir = 0;
+    socket.emit('message', 'straight');
   }
 }, true);
 
@@ -93,11 +97,11 @@ window.addEventListener('devicemotion', function (motionEvent) {
 //  $('#speed').text(speed);
 
   if (noActiveMove) {
-    if (zSpeed > 0.75) {
+    if (zSpeed > 0.65) {
       $('#jump').text('Crouch! ' + zSpeed);
       socket.emit('message', 'crouch');
       setActiveMove();
-    } else if (zSpeed < -0.75) {
+    } else if (zSpeed < -0.65) {
       $('#jump').text('Jump! ' + zSpeed);
       socket.emit('message', 'jump');
       setActiveMove();
