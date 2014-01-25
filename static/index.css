@@ -6,6 +6,7 @@
 body {
   background-image: url('/static/background.jpg');
   background-size: cover;
+  background-repeat: no-repeat;
   font-family: 'Ceviche';
   font-size: 120pt;
   color: white;
@@ -16,4 +17,24 @@ div#score {
   position: absolute;
   left: 200px;
   top: 250px;
+}
+
+#button {
+  position: absolute;
+  top: 120px;
+  left: 500px;
+  width: 322px;
+  height: 298px;
+  -moz-user-select: none;
+  -khtml-user-select: none;
+  -webkit-user-select: none;
+  -o-user-select: none;
+}
+
+.button {
+  background-image: url('/static/button.png');
+}
+
+.button-down {
+  background-image: url('/static/button_down.png');
 }
