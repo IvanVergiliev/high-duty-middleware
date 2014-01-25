@@ -1,0 +1,19 @@
+@font-face {
+  font-family: 'Ceviche';
+  src: url('/static/CevicheOne-Regular.ttf');
+}
+
+body {
+  background-image: url('/static/background.jpg');
+  background-size: cover;
+  font-family: 'Ceviche';
+  font-size: 120pt;
+  color: white;
+  text-shadow: -6px -6px 0 #A02B0B, 6px -6px 0 #A02B0B, -6px 6px 0 #A02B0B, 6px 6px 0 #A02B0B;
+}
+
+div#score {
+  position: absolute;
+  left: 200px;
+  top: 250px;
+}
