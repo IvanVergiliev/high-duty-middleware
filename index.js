@@ -20,9 +20,9 @@ app.get('/', function (req, res) {
 
 var io = socketIO.listen(server);
 
-var unityServer = new UnityServer(players, null);
-
 var players = [];
+
+var unityServer = new UnityServer(players, null);
 
 io.sockets.on('connection', function (socket) {
   var player = new Player(players.length + 1, unityServer, socket);
@@ -45,9 +45,9 @@ io.sockets.on('connection', function (socket) {
 server.listen(3000);
 
 var tcpServer = net.createServer(function (socket) {
-  unityServer.socket = socket;
+  unityServer.setSocket(socket);
   socket.on('close', function () {
-    unityServer.socket = null;
+    unityServer.setSocket(null);
     console.log('disconnected game server');
   });
   socket.on('error', function () {

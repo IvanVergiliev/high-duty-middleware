@@ -10,4 +10,12 @@ Player.prototype.handleMessage = function (data) {
   this.server.playerMessage(this.id, data);
 };
 
+Player.prototype.handleServerMessage = function (message, data) {
+  switch (message) {
+    case 'score':
+      this.socket.emit('score', data);
+      break;
+  }
+};
+
 module.exports = Player;

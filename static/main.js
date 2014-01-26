@@ -91,10 +91,18 @@ window.addEventListener('devicemotion', function (motionEvent) {
   }
 }, true);
 
+var sounds = [
+  new Audio('/static/SheepSound_5.wav'),
+  new Audio('/static/SheepSound_7.wav'),
+  new Audio('/static/baalamb3.wav'),
+];
+
 $(function () {
   var button = document.getElementById('button');
   button.addEventListener('touchstart', function () {
     socket.emit('message', 'baaaaa');
+    var soundIndex = ~~(Math.random() * sounds.length);
+    sounds[soundIndex].play();
     button.classList.remove('button');
     button.classList.add('button-down');
   }, false);
@@ -104,3 +112,6 @@ $(function () {
   }, false);
 });
 
+socket.on('score', function (score) {
+  $('#score').text(score);
+});
