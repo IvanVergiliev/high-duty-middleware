@@ -37,7 +37,7 @@ io.sockets.on('connection', function (socket) {
     unityServer.stopGame();
     players.splice(pos, 1);
     for (var i = pos; i < players.length; ++i) {
-      players[i].id = i + 1;
+      players[i].setId(i + 1);
     }
   });
 });

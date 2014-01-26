@@ -1,8 +1,12 @@
 var Player = function (id, server, webSocket) {
-  this.id = id;
+  this.setId(id);
   this.server = server;
   this.socket = webSocket;
   this.socket.on('message', this.handleMessage.bind(this));
+};
+
+Player.prototype.setId = function (id) {
+  this.id = id % 2 + 1;
 };
 
 Player.prototype.handleMessage = function (data) {
