@@ -25,7 +25,7 @@ var players = [];
 var unityServer = new UnityServer(players, null);
 
 io.sockets.on('connection', function (socket) {
-  var player = new Player(players.length + 1, unityServer, socket);
+  var player = new Player(players.length, unityServer, socket);
   players.push(player);
   socket.on('disconnect', function () {
     console.log('removing player');
@@ -37,7 +37,7 @@ io.sockets.on('connection', function (socket) {
     unityServer.stopGame();
     players.splice(pos, 1);
     for (var i = pos; i < players.length; ++i) {
-      players[i].setId(i + 1);
+      players[i].setId(i);
     }
   });
 });

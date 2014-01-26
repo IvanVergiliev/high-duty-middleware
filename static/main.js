@@ -30,7 +30,7 @@ var normalize = function (motionEvent) {
   return result;
 };
 
-var turnThreshold = 25;
+var turnThreshold = 20;
 var stopTurnThreshold = 15;
 var dir = 0;
 
@@ -43,11 +43,16 @@ window.addEventListener('deviceorientation', function (event) {
   $('#beta').text(beta);
   if (Math.abs(beta) > turnThreshold) {
     var curDir = sign(beta);
+    var turnCoef = Math.floor(Math.abs(beta) / 18);
+    curDir *= turnCoef;
     if (curDir == dir) {
       return;
     }
     dir = curDir;
-    var data = (dir == 1 ? 'right' : 'left');
+    var data = (dir > 0 ? 'right' : (dir == 0 ? 'straight' : 'left'));
+    if (data != 'straight') {
+      data += ' ' + turnCoef;
+    }
     socket.emit('message', data);
   } else if (Math.abs(beta) < stopTurnThreshold && dir != 0) {
     dir = 0;
